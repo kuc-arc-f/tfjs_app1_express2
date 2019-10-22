@@ -8,7 +8,7 @@
 
 ***
 
-TensorFlow.js train sample ,import model from HTTPS 
+TensorFlow.js train sample ,import model from HTTP 
 
 ***
 ### setup
@@ -25,6 +25,8 @@ npm start
 
 ***
 ### blog
+
+https://knaka0209.hatenablog.com/entry/tfjs_5_express
 
 ***
 
