@@ -1,0 +1,59 @@
+<!-- 
+tensorflow.js のテスト  ,回帰モデル
+https://codelabs.developers.google.com/codelabs/tfjs-training-regression/index.html?hl=ja#0
+ 2019/10/10 : モデル等の再調整
+--->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TensorFlow.js Tutorial</title>
+    <!-- Import TensorFlow.js -->
+    <!-- tfjs@1.0.0/dist/tf.min.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+    <!-- Import tfjs-vis -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-vis@1.0.2/dist/tfjs-vis.umd.min.js"></script>
+    <!-- chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0/dist/Chart.min.js"></script>
+    <script src="javascripts/train_10.js"></script>
+    <script src="javascripts/pred_chart.js"></script>
+
+</head>
+
+<body>
+<h1>tensorflow.js test</h1>
+<hr />
+<canvas id="myChart" ></canvas>
+
+</body>
+<script>
+console.log('Hello TensorFlow, t1.html');
+
+/******************************** 
+*
+*********************************/
+async function run_train() {
+    const data = await getData();
+    var chart_dats = convert_chart_arr(data)
+console.log(chart_dats.lbl.length )
+    //return
+    const tensorData = convertToTensor(data);
+    const {inputs, labels} = tensorData;
+    const model = await tf.loadLayersModel('http://localhost:3000/my-model/model.json');
+    //pred
+    const [xs, preds] = testModel(model, data, tensorData, 
+                        chart_dats.lbl.length);
+//    console.log( preds );
+    //chart-disp
+    var config = get_chart_config(chart_dats, preds);
+    var ctx = document.getElementById('myChart').getContext('2d');
+    window.myLine = new Chart(ctx, config);
+
+    console.log('Done Training');
+}
+/******************************** 
+* main
+*********************************/
+document.addEventListener('DOMContentLoaded', run_train );
+
+</script>
+</html>
